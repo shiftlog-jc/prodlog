@@ -489,13 +489,12 @@ function exportXLSX() {
       const ris = r.risorse[i];
       const fer = r.fermi[i];
       data.push([
-        i===0?r.data:'', i===0?r.linea:'', i===0?r.codice:'',
+        r.data, r.linea, r.codice,
         i===0?(r.pezzi>0?r.pezzi:''):'',
         ris?ris.n:'', ris?ris.da:'', ris?ris.a:'',
         fer?fer.da:'', fer?fer.a:'', fer?(fer.desc||''):''
       ]);
     }
-    data.push(new Array(10).fill(''));
   });
 
   const ws = XLSX.utils.aoa_to_sheet(data);
