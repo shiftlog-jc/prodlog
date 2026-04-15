@@ -484,14 +484,18 @@ function exportXLSX() {
                  'FERMO DALLE','FERMO ALLE','DESCRIZIONE FERMO']];
 
   rows.forEach(r => {
+    const [y,m,d] = r.data.split('-');
+    const dataFmt = `${d}/${m}/${y}`;
     const maxLen = Math.max(r.risorse.length, r.fermi.length, 1);
     for (let i=0; i<maxLen; i++) {
       const ris = r.risorse[i];
       const fer = r.fermi[i];
+      // ora fine = inizio fascia successiva (se esiste), altrimenti quella inserita
+      const risA = ris ? (r.risorse[i+1] ? r.risorse[i+1].da : ris.a) : '';
       data.push([
-        r.data, r.linea, r.codice,
+        dataFmt, r.linea, r.codice,
         i===0?(r.pezzi>0?r.pezzi:''):'',
-        ris?ris.n:'', ris?ris.da:'', ris?ris.a:'',
+        ris?ris.n:'', ris?ris.da:'', risA,
         fer?fer.da:'', fer?fer.a:'', fer?(fer.desc||''):''
       ]);
     }
